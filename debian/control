@@ -1,0 +1,13 @@
+Source: moxa-led-control
+Section: misc
+Priority: required
+Maintainer: Harry YJ Jhou <HarryYJ.Jhou@moxa.com>
+Build-Depends: debhelper (>= 10)
+Standards-Version: 4.1.1
+Homepage: https://www.moxa.com/
+
+Package: moxa-led-control
+Architecture: all
+Depends: ${misc:Depends}
+Description: Moxa led control utility
+ led control utility for Moxa platform
