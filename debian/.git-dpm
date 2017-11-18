@@ -6,3 +6,6 @@
 mx-led-ctl_1.0.0.orig.tar.gz
 a21c121d132938d9b38f917545c24f69427f357f
 2161
+debianTag="debian/%e%v"
+patchedTag="patched/%e%v"
+upstreamTag="upstream/%e%u"
