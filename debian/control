@@ -2,8 +2,9 @@ Source: moxa-led-control
 Section: misc
 Priority: required
 Maintainer: Harry YJ Jhou <HarryYJ.Jhou@moxa.com>
+Uploaders: SZ Lin (林上智) <sz.lin@moxa.com>
 Build-Depends: debhelper (>= 10)
-Standards-Version: 4.1.1
+Standards-Version: 4.1.2
 Homepage: https://www.moxa.com/
 
 Package: moxa-led-control
