@@ -1,5 +1,9 @@
 moxa-led-control (1.0.0+deb9) stretch; urgency=low
 
+  [ Harry YJ Jhou ]
   * Initial release.
 
- -- Harry YJ Jhou <HarryYJ.Jhou@moxa.com>  Sat, 18 Nov 2017 00:08:04 +0800
+  [ SZ Lin (林上智) ]
+  * Fix lintian warning/ errors
+
+ -- SZ Lin (林上智) <sz.lin@moxa.com>  Sat, 23 Dec 2017 14:21:12 +0800
