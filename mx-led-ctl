@@ -163,8 +163,37 @@ __debug__(){
 
 load_config()
 {
-	CFG_VERSION="$(jq ".CFG_VERSION" $CFG_FILE --raw-output)"
+	RAW_CONFIG_DATA="$(awk -f $JSON_AWK_CFG_FILE $CFG_FILE)"
+	RAW_CONFIG_DATA=$(sed 's/\[\"//g' <<< $RAW_CONFIG_DATA)
+	RAW_CONFIG_DATA=$(sed 's/[[:space:]]//g' <<< $RAW_CONFIG_DATA)
+	RAW_CONFIG_DATA=$(sed 's/\"\]\"/=\"/g' <<< $RAW_CONFIG_DATA)
+	RAW_CONFIG_DATA=$(sed 's/\",/\[/g' <<< $RAW_CONFIG_DATA)
+	RAW_CONFIG_DATA=$(sed 's/\]\"/\]=\"/g' <<< $RAW_CONFIG_DATA)
+	eval $RAW_CONFIG_DATA
 
+	# load SGN_PATH
+	for (( i=${MAX_SGN_GROUP}; i>0 ; i-- ))
+	do
+		for (( j=${MAX_SGN_INDEX}; j>0 ; j-- ))
+		do
+			SGN_PATH[$i,$j]="${LED_PATH}${SGN_PATH[$((i-1)),$((j-1))]}"
+		done
+	done
+
+	# load PROG_PATH
+	for (( i=${MAX_PROG_GROUP}; i>0 ; i-- ))
+	do
+		for (( j=${MAX_PROG_INDEX}; j>0 ; j-- ))
+		do
+			PROG_PATH[$i,$j]="${LED_PATH}${PROG_PATH[$((i-1)),$((j-1))]}"
+		done
+	done
+	return
+}
+
+load_config_by_jq()
+{
+	CFG_VERSION="$(jq ".CFG_VERSION" $CFG_FILE --raw-output)"
 	MAX_SGN_GROUP="$(jq ".MAX_SGN_GROUP" $CFG_FILE --raw-output)"
 	MAX_SGN_INDEX="$(jq ".MAX_SGN_INDEX" $CFG_FILE --raw-output)"
 
@@ -196,12 +225,14 @@ load_config()
 			PROG_PATH[$((i+1)),$((j+1))]="${LED_PATH}$(jq ".PROG_PATH[$i][$j]" $CFG_FILE --raw-output)"
 		done
 	done
+
 }
 
 # Initial function
 init(){
 	# Check config file
 	CFG_FILE="/etc/moxa-configs/moxa-led-control.json"
+	JSON_AWK_CFG_FILE="/etc/moxa-configs/JSON.awk"
 	if [ -f "$CFG_FILE" ]; then
 		load_config
 	else
