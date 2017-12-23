@@ -3,11 +3,12 @@ Upstream-Name: moxa-led-control
 Source: http://gitlab.syssw.moxa.com/HarryYJ_Jhou/moxa-led-control
 
 Files: *
-Copyright: 2017 Harry YJ Jhou <HarryYJ.Jhou@moxa.com>
+Copyright: 2017 MXcore
 License:   Apache-2.0
 
 Files: debian/*
 Copyright: 2017 Harry YJ Jhou <HarryYJ.Jhou@moxa.com>
+           2017 SZ Lin (林上智) <sz.lin@moxa.com>
 License:   Apache-2.0
 
 License:   Apache-2.0
