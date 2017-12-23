@@ -1,23 +1,12 @@
 #!/bin/bash
 #
-#    Copyright (C) MOXA Inc. All rights reserved.
+# Copyright (c) 2017 Harry YJ Jhou
 #
-#    This software is distributed under the terms of the
-#    MOXA License.  See the file COPYING-MOXA for details.
+# This software is distributed under the terms of the
+# Apache License.
 #
-#    /sbin/mx-led-ctl
+# Moxa led control utility
 #
-#    Moxa led control utility
-#
-#    2017-03-01  Harry YJ Jhou
-#	 new release
-#
-#    2017-07-04  Harry YJ Jhou
-#	 change config file to json format
-#	 add new feature : switch led to blink mode
-#	 add new feature : switch all signal/programmable leds on/off/blink
-#
-#	 VERSION 1.0.0
 
 declare -A SGN_PATH
 declare -A PROG_PATH
