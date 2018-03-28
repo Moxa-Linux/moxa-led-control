@@ -16,6 +16,8 @@
 #include <unistd.h>
 #include <moxa/mx_led.h>
 
+extern char mx_errmsg[256];
+
 void test_led(int group, int index)
 {
 	int ret;
@@ -26,6 +28,7 @@ void test_led(int group, int index)
 	ret = mx_led_set_brightness(LED_TYPE_PROGRAMMABLE, group, index, LED_STATE_ON);
 	if (ret < 0) {
 		fprintf(stderr, "Failed, Error code: %d\n", ret);
+		fprintf(stderr, "Error message: %s\n", mx_errmsg);
 		exit(1);
 	}
 	sleep(1);
@@ -34,6 +37,7 @@ void test_led(int group, int index)
 	ret = mx_led_set_brightness(LED_TYPE_PROGRAMMABLE, group, index, LED_STATE_OFF);
 	if (ret < 0) {
 		fprintf(stderr, "Failed, Error code: %d\n", ret);
+		fprintf(stderr, "Error message: %s\n", mx_errmsg);
 		exit(1);
 	}
 	sleep(1);
@@ -42,6 +46,7 @@ void test_led(int group, int index)
 	ret = mx_led_set_brightness(LED_TYPE_PROGRAMMABLE, group, index, LED_STATE_BLINK);
 	if (ret < 0) {
 		fprintf(stderr, "Failed, Error code: %d\n", ret);
+		fprintf(stderr, "Error message: %s\n", mx_errmsg);
 		exit(1);
 	}
 	sleep(1);
@@ -50,6 +55,7 @@ void test_led(int group, int index)
 	ret = mx_led_set_brightness(LED_TYPE_PROGRAMMABLE, group, index, LED_STATE_OFF);
 	if (ret < 0) {
 		fprintf(stderr, "Failed, Error code: %d\n", ret);
+		fprintf(stderr, "Error message: %s\n", mx_errmsg);
 		exit(1);
 	}
 	sleep(1);
@@ -63,6 +69,7 @@ int main(int argc, char *argv[])
 	if (ret < 0) {
 		fprintf(stderr, "Initialize Moxa led control library failed\n");
 		fprintf(stderr, "Error code: %d\n", ret);
+		fprintf(stderr, "Error message: %s\n", mx_errmsg);
 		exit(1);
 	}
 
@@ -72,6 +79,7 @@ int main(int argc, char *argv[])
 	if (ret < 0) {
 		fprintf(stderr, "Failed to get number of groups\n");
 		fprintf(stderr, "Error code: %d\n", ret);
+		fprintf(stderr, "Error message: %s\n", mx_errmsg);
 		exit(1);
 	}
 
@@ -79,6 +87,7 @@ int main(int argc, char *argv[])
 	if (ret < 0) {
 		fprintf(stderr, "Failed to get number of leds\n");
 		fprintf(stderr, "Error code: %d\n", ret);
+		fprintf(stderr, "Error message: %s\n", mx_errmsg);
 		exit(1);
 	}
 
@@ -92,6 +101,7 @@ int main(int argc, char *argv[])
 	ret = mx_led_set_all_on();
 	if (ret < 0) {
 		fprintf(stderr, "Failed, Error code: %d\n", ret);
+		fprintf(stderr, "Error message: %s\n", mx_errmsg);
 		exit(1);
 	}
 	sleep(1);
@@ -100,6 +110,7 @@ int main(int argc, char *argv[])
 	ret = mx_led_set_all_off();
 	if (ret < 0) {
 		fprintf(stderr, "Failed, Error code: %d\n", ret);
+		fprintf(stderr, "Error message: %s\n", mx_errmsg);
 		exit(1);
 	}
 	sleep(1);
