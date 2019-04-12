@@ -1,3 +1,11 @@
+moxa-led-control (1.1.0+deb9) stretch; urgency=low
+
+  * Remove old version of mx-led-ctl utility code.
+  * Add new mx_led library codes and new mx-led-ctl utility code.
+  * Redefine deb packaging
+
+ -- Ken CJ Chou <KenCJ.Chou@moxa.com>  Thu, 22 Feb 2018 14:30:00 +0800
+
 moxa-led-control (1.0.0+deb9) stretch; urgency=low
 
   [ Harry YJ Jhou ]
