@@ -16,8 +16,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <getopt.h>
-
-#include "mx_led.h"
+#include <mx_led.h>
 
 enum setting_type {
 	UNSET = -1,

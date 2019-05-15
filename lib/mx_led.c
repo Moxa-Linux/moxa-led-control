@@ -20,8 +20,7 @@
 #include <sys/file.h>
 #include <json-c/json.h>
 #include <moxa/mx_errno.h>
-
-#include "mx_led.h"
+#include <mx_led.h>
 
 #define CONF_FILE "/etc/moxa-configs/moxa-led-control.json"
 #define CONF_VER_SUPPORTED "1.1.*"
