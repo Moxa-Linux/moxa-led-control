@@ -17,7 +17,6 @@
 #include <unistd.h>
 #include <string.h>
 #include <fcntl.h>
-#include <errno.h>
 #include <json-c/json.h>
 #include <mx_led.h>
 
@@ -48,7 +47,6 @@ static struct led_state_struct led_states[3] = {
 		.data_written = "heartbeat"
 	}
 };
-extern char mx_errmsg[256];
 
 /*
  * json-c utilities
@@ -56,10 +54,8 @@ extern char mx_errmsg[256];
 
 static inline int obj_get_obj(struct json_object *obj, char *key, struct json_object **val)
 {
-	if (!json_object_object_get_ex(obj, key, val)) {
-		sprintf(mx_errmsg, "json-c: can\'t get key: \"%s\"", key);
+	if (!json_object_object_get_ex(obj, key, val))
 		return -1;
-	}
 	return 0;
 }
 
@@ -98,10 +94,8 @@ static int obj_get_arr(struct json_object *obj, char *key, struct array_list **v
 
 static int arr_get_obj(struct array_list *arr, int idx, struct json_object **val)
 {
-	if (arr == NULL || idx >= arr->length) {
-		sprintf(mx_errmsg, "json-c: can\'t get index: %d", idx);
+	if (arr == NULL || idx >= arr->length)
 		return -1;
-	}
 
 	*val = array_list_get_idx(arr, idx);
 	return 0;
@@ -148,20 +142,14 @@ static int check_config_version_supported(const char *conf_ver)
 {
 	int cv[2], sv[2];
 
-	if (sscanf(conf_ver, "%d.%d.%*s", &cv[0], &cv[1]) < 0) {
-		sprintf(mx_errmsg, "sscanf: %s: %s", conf_ver, strerror(errno));
+	if (sscanf(conf_ver, "%d.%d.%*s", &cv[0], &cv[1]) < 0)
 		return -1; /* E_SYSFUNCERR */
-	}
 
-	if (sscanf(CONF_VER_SUPPORTED, "%d.%d.%*s", &sv[0], &sv[1]) < 0) {
-		sprintf(mx_errmsg, "sscanf: %s: %s", CONF_VER_SUPPORTED, strerror(errno));
+	if (sscanf(CONF_VER_SUPPORTED, "%d.%d.%*s", &sv[0], &sv[1]) < 0)
 		return -1; /* E_SYSFUNCERR */
-	}
 
-	if (cv[0] != sv[0] || cv[1] != sv[1]) {
-		sprintf(mx_errmsg, "Config version not supported, need to be %s", CONF_VER_SUPPORTED);
+	if (cv[0] != sv[0] || cv[1] != sv[1])
 		return -4; /* E_UNSUPCONFVER */
-	}
 	return 0;
 }
 
@@ -169,10 +157,8 @@ static int get_led_type_info(int led_type, struct json_object **led_type_info)
 {
 	struct array_list *led_types;
 
-	if (led_type != LED_TYPE_SIGNAL && led_type != LED_TYPE_PROGRAMMABLE) {
-		sprintf(mx_errmsg, "Invalid type: %d", led_type);
+	if (led_type != LED_TYPE_SIGNAL && led_type != LED_TYPE_PROGRAMMABLE)
 		return -2; /* E_INVAL */
-	}
 
 	if (obj_get_arr(config, "LED_TYPES", &led_types) < 0)
 		return -5; /* E_CONFERR */
@@ -186,10 +172,8 @@ static int get_led_type_info(int led_type, struct json_object **led_type_info)
 static int get_led_state_info(int led_state, struct led_state_struct **state)
 {
 	if (led_state != LED_STATE_OFF && led_state != LED_STATE_ON &&
-		led_state != LED_STATE_BLINK){
-		sprintf(mx_errmsg, "Invalid state: %d", led_state);
+		led_state != LED_STATE_BLINK)
 		return -2; /* E_INVAL */
-	}
 
 	*state = &led_states[led_state];
 	return 0;
@@ -211,15 +195,11 @@ static int get_led_path(int led_type, int group, int index, const char **path)
 	if (obj_get_int(led_type_info, "NUM_OF_LEDS_PER_GROUP", &num_of_leds_per_group) < 0)
 		return -5; /* E_CONFERR */
 
-	if (group < 1 || group > num_of_groups) {
-		sprintf(mx_errmsg, "LED group out of index: %d", group);
+	if (group < 1 || group > num_of_groups)
 		return -2; /* E_INVAL */
-	}
 
-	if (index < 1 || index > num_of_leds_per_group) {
-		sprintf(mx_errmsg, "LED index out of index: %d", index);
+	if (index < 1 || index > num_of_leds_per_group)
 		return -2; /* E_INVAL */
-	}
 
 	if (obj_get_arr(led_type_info, "PATHS", &group_paths) < 0)
 		return -5; /* E_CONFERR */
@@ -238,13 +218,10 @@ static int write_file(char *filepath, const char *data)
 	int fd;
 
 	fd = open(filepath, O_WRONLY);
-	if (fd < 0) {
-		sprintf(mx_errmsg, "open %s: %s", filepath, strerror(errno));
+	if (fd < 0)
 		return -1; /* E_SYSFUNCERR */
-	}
 
 	if (write(fd, data, strlen(data)) < 0) {
-		sprintf(mx_errmsg, "write %s: %s", filepath, strerror(errno));
 		close(fd);
 		return -1; /* E_SYSFUNCERR */
 	}
@@ -293,10 +270,8 @@ int mx_led_init(void)
 		return 0;
 
 	config = json_object_from_file(CONF_FILE);
-	if (config == NULL) {
-		sprintf(mx_errmsg, "json-c: load file %s failed", CONF_FILE);
+	if (config == NULL)
 		return -5; /* E_CONFERR */
-	}
 
 	if (obj_get_str(config, "CONFIG_VERSION", &conf_ver) < 0)
 		return -5; /* E_CONFERR */
@@ -314,10 +289,8 @@ int mx_led_get_num_of_groups(int led_type, int *num_of_groups)
 	struct json_object *led_type_info;
 	int ret;
 
-	if (!lib_initialized) {
-		sprintf(mx_errmsg, "Library is not initialized");
+	if (!lib_initialized)
 		return -3; /* E_LIBNOTINIT */
-	}
 
 	ret = get_led_type_info(led_type, &led_type_info);
 	if (ret < 0)
@@ -334,10 +307,8 @@ int mx_led_get_num_of_leds_per_group(int led_type, int *num_of_leds_per_group)
 	struct json_object *led_type_info;
 	int ret;
 
-	if (!lib_initialized) {
-		sprintf(mx_errmsg, "Library is not initialized");
+	if (!lib_initialized)
 		return -3; /* E_LIBNOTINIT */
-	}
 
 	ret = get_led_type_info(led_type, &led_type_info);
 	if (ret < 0)
@@ -351,10 +322,8 @@ int mx_led_get_num_of_leds_per_group(int led_type, int *num_of_leds_per_group)
 
 int mx_led_set_brightness(int led_type, int group, int index, int state)
 {
-	if (!lib_initialized) {
-		sprintf(mx_errmsg, "Library is not initialized");
+	if (!lib_initialized)
 		return -3; /* E_LIBNOTINIT */
-	}
 
 	return set_led(led_type, group, index, state);
 }
@@ -364,10 +333,8 @@ int mx_led_set_type_all(int led_type, int led_state)
 	struct json_object *led_type_info;
 	int ret, num_of_groups, num_of_leds_per_group, i, j;
 
-	if (!lib_initialized) {
-		sprintf(mx_errmsg, "Library is not initialized");
+	if (!lib_initialized)
 		return -3; /* E_LIBNOTINIT */
-	}
 
 	ret = get_led_type_info(led_type, &led_type_info);
 	if (ret < 0)
@@ -394,10 +361,8 @@ int mx_led_set_all_off(void)
 {
 	int ret;
 
-	if (!lib_initialized) {
-		sprintf(mx_errmsg, "Library is not initialized");
+	if (!lib_initialized)
 		return -3; /* E_LIBNOTINIT */
-	}
 
 	ret = mx_led_set_type_all(LED_TYPE_SIGNAL, LED_STATE_OFF);
 	if (ret < 0)
@@ -414,10 +379,8 @@ int mx_led_set_all_on(void)
 {
 	int ret;
 
-	if (!lib_initialized) {
-		sprintf(mx_errmsg, "Library is not initialized");
+	if (!lib_initialized)
 		return -3; /* E_LIBNOTINIT */
-	}
 
 	ret = mx_led_set_type_all(LED_TYPE_SIGNAL, LED_STATE_ON);
 	if (ret < 0)

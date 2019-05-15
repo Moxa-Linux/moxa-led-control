@@ -33,8 +33,6 @@ struct action_struct {
 	char *state;
 };
 
-extern char mx_errmsg[256];
-
 void usage(FILE *fp)
 {
 	fprintf(fp, "Usage:\n");
@@ -79,7 +77,6 @@ void do_action(struct action_struct action)
 				action.group_id, action.index,
 				LED_STATE_OFF) < 0) {
 				fprintf(stderr, "Failed to set LED state\n");
-				fprintf(stderr, "%s\n", mx_errmsg);
 				exit(1);
 			}
 		} else if (strcmp(action.state, "on") == 0) {
@@ -87,7 +84,6 @@ void do_action(struct action_struct action)
 				action.group_id, action.index,
 				LED_STATE_ON) < 0) {
 				fprintf(stderr, "Failed to set LED state\n");
-				fprintf(stderr, "%s\n", mx_errmsg);
 				exit(1);
 			}
 		} else if (strcmp(action.state, "blink") == 0) {
@@ -95,7 +91,6 @@ void do_action(struct action_struct action)
 				action.group_id, action.index,
 				LED_STATE_BLINK) < 0) {
 				fprintf(stderr, "Failed to set LED state\n");
-				fprintf(stderr, "%s\n", mx_errmsg);
 				exit(1);
 			}
 		}  else {
@@ -108,21 +103,18 @@ void do_action(struct action_struct action)
 			if (mx_led_set_type_all(action.led_type,
 				LED_STATE_OFF) < 0) {
 				fprintf(stderr, "Failed to set LED state\n");
-				fprintf(stderr, "%s\n", mx_errmsg);
 				exit(1);
 			}
 		} else if (strcmp(action.state, "on") == 0) {
 			if (mx_led_set_type_all(action.led_type,
 				LED_STATE_ON) < 0) {
 				fprintf(stderr, "Failed to set LED state\n");
-				fprintf(stderr, "%s\n", mx_errmsg);
 				exit(1);
 			}
 		} else if (strcmp(action.state, "blink") == 0) {
 			if (mx_led_set_type_all(action.led_type,
 				LED_STATE_BLINK) < 0) {
 				fprintf(stderr, "Failed to set LED state\n");
-				fprintf(stderr, "%s\n", mx_errmsg);
 				exit(1);
 			}
 		}  else {
@@ -136,13 +128,11 @@ void do_action(struct action_struct action)
 		if (mx_led_get_num_of_leds_per_group(action.led_type,
 			&num_of_leds_per_group) < 0) {
 			fprintf(stderr, "Failed to get number of leds\n");
-			fprintf(stderr, "%s\n", mx_errmsg);
 			exit(1);
 		}
 
 		if (strlen(action.state) != num_of_leds_per_group) {
 			fprintf(stderr, "number of leds not matched\n");
-			fprintf(stderr, "%s\n", mx_errmsg);
 			exit(1);
 		}
 
@@ -151,7 +141,6 @@ void do_action(struct action_struct action)
 				action.group_id, i,
 				action.state[i - 1] - '0') < 0) {
 				fprintf(stderr, "Failed to set LED state\n");
-				fprintf(stderr, "%s\n", mx_errmsg);
 				exit(1);
 			}
 		}
@@ -255,7 +244,6 @@ int main(int argc, char *argv[])
 
 	if (mx_led_init() < 0) {
 		fprintf(stderr, "Initialize Moxa led control library failed\n");
-		fprintf(stderr, "%s\n", mx_errmsg);
 		exit(1);
 	}
 
