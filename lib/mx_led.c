@@ -16,8 +16,8 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
+#include <fcntl.h>
 #include <errno.h>
-#include <sys/file.h>
 #include <json-c/json.h>
 #include <moxa/mx_errno.h>
 #include <mx_led.h>
@@ -243,7 +243,6 @@ static int write_file(char *filepath, const char *data)
 		sprintf(mx_errmsg, "open %s: %s", filepath, strerror(errno));
 		return E_SYSFUNCERR;
 	}
-	flock(fd, LOCK_EX);
 
 	if (write(fd, data, strlen(data)) < 0) {
 		sprintf(mx_errmsg, "write %s: %s", filepath, strerror(errno));
