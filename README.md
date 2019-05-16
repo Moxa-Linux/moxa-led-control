@@ -1,48 +1,57 @@
-## Config example
+# moxa-led-control
 
-### Path 
+`moxa-led-control` is a C library for controlling the Linux LED
+subsystem via sysfs interface.
+
+## Build
+
+This project use autotools as buildsystem. You can build this project by the following commands:
+
+* If the build target architecture is x86_64
+
+	```
+	# ./autogen.sh --host=x86_64-linux-gnu --includedir=/usr/include/moxa --libdir=/usr/lib/x86_64-linux-gnu --sbindir=/sbin
+	# make
+	# make install
+	```
+* If the build target architecture is armhf
+
+	```
+	# ./autogen.sh --host=arm-linux-gnueabihf --includedir=/usr/include/moxa --libdir=/usr/lib/arm-linux-gnueabihf --sbindir=/sbin
+	# make
+	# make install
+	```
+
+The autogen script will execute ./configure and pass all the command-line
+arguments to it.
+
+## Usage of mx-led-ctl
+
 ```
-/etc/moxa-configs/moxa-led-control.json
+Usage:
+	mx-led-ctl -s|-p <sgn_group|prog_group> -i <led_index> off|on|blink
+OPTIONS:
+	-s <led_group>
+		Select signal LED group
+	-p <led_group>
+		Select programmable LED group
+	-i <led_index>
+		Select LED index in group
+	--all-signal
+		Select all signal LEDs
+	--all-programmable
+		Select all programmable LEDs
+
+Example:
+	Turn on 'Signal' led GROUP 2 index 3
+	# mx-led-ctl -s 2 -i 3 on
+
+	Turn off 'Programmable' led GROUP 2 index 3
+	# mx-led-ctl -p 2 -i 3 off
 ```
 
-### Description
+## Documentation
 
-* `CONFIG_VERSION`: The version of config file
-* `LED_TYPES`: The type of LED
-  * `TYPE`: Type name
-  * `NUM_OF_GROUPS`: The number of groups in this type
-  * `NUM_OF_LEDS_PER_GROUP`: The number of LEDs per group in this type
-  * `PATHS`: The filepath of LED in nested structure
+[Config Example](/Config_Example.md)
 
-### Example: UC-5111-LX
-
-```
-{
-	"CONFIG_VERSION": "1.1.0",
-
-	"LED_TYPES": [
-		{
-			"TYPE": "SIGNAL",
-			"NUM_OF_GROUPS": 1,
-			"NUM_OF_LEDS_PER_GROUP": 3,
-			"PATHS": [
-				[
-					"uc5100:SGN1",
-					"uc5100:SGN2",
-					"uc5100:SGN3"
-				]
-			]
-		},
-		{
-			"TYPE": "PROGRAMMABLE",
-			"NUM_OF_GROUPS": 1,
-			"NUM_OF_LEDS_PER_GROUP": 1,
-			"PATHS": [
-				[
-					"uc5100:SYS"
-				]
-			]
-		}
-	]
-}
-```
+[API Reference](/API_References.md)
