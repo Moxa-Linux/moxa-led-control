@@ -1,3 +1,11 @@
+moxa-led-control (1.1.1+deb9) stretch; urgency=low
+
+  * Remove mx_errmsg.
+  * Change install directory for libmx_led_ctl.so*
+    from `/lib/<arch>` to `/usr/lib/<arch>`.
+
+ -- Ken CJ Chou <KenCJ.Chou@moxa.com>  Mon, 1 Jul 2019 19:44:00 +0800
+
 moxa-led-control (1.1.0+deb9) stretch; urgency=low
 
   * Remove old version of mx-led-ctl utility code.
