@@ -1,3 +1,2 @@
-#!/usr/bin/dh-exec
-mx_led.h /usr/include/moxa/
-mx_led.a /usr/lib/${DEB_HOST_MULTIARCH}/
+usr/include/moxa/mx_led.h
+usr/lib/*/libmx_led_ctl.so

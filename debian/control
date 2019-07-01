@@ -4,8 +4,6 @@ Maintainer: Ken CJ Chou <KenCJ.Chou@moxa.com>
 Uploaders: SZ Lin (林上智) <sz.lin@moxa.com>,
            Harry YJ Jhou <HarryYJ.Jhou@moxa.com>
 Build-Depends: debhelper (>= 10), 
-               dh-exec,
-               libmoxa-errno-dev (>= 1.0.0),
                libjson-c-dev
 Standards-Version: 4.1.2
 Section: libs
