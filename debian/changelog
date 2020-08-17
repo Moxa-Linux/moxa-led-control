@@ -1,0 +1,6 @@
+moxa-led-control (1.1.1+deb10) buster; urgency=low
+
+  * Initial Release.
+  * Source was based on 1.1.1
+
+ -- Elvis Yao (姚家瑋) <ElvisCW.Yao@moxa.com>  Mon, 17 Aug 2020 10:51:36 +0800
