@@ -1,0 +1,8 @@
+libmx_led_ctl.so.1 libmoxa-led-control1 #MINVER#
+ mx_led_init@Base 1.1.1
+ mx_led_get_num_of_groups@Base 1.1.1
+ mx_led_get_num_of_leds_per_group@Base 1.1.1
+ mx_led_set_brightness@Base 1.1.1
+ mx_led_set_type_all@Base 1.1.1
+ mx_led_set_all_on@Base 1.1.1
+ mx_led_set_all_off@Base 1.1.1
