@@ -1,0 +1,39 @@
+Source: moxa-led-control
+Priority: required
+Maintainer: Ken CJ Chou <KenCJ.Chou@moxa.com>
+Uploaders: Elvis Yao <ElvisCW.Yao@moxa.com>
+Build-Depends: debhelper (>= 10), 
+               libjson-c-dev
+Standards-Version: 4.1.2
+Section: libs
+Homepage: https://www.moxa.com/
+
+Package: libmoxa-led-control1
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+         libjson-c3
+Description: Moxa LED control library - shared library
+ LED control library can control the LEDs on the device, 
+ which can be on, off, or blink.
+
+Package: libmoxa-led-control-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: libmoxa-led-control1 (= ${binary:Version}),
+         ${misc:Depends}
+Description: Moxa LED control library - development files
+ LED control library can control the LEDs on the device, 
+ which can be on, off, or blink.
+
+Package: moxa-led-control
+Architecture: any
+Section: utils
+Depends: libmoxa-led-control1 (= ${binary:Version}),
+         ${shlibs:Depends},
+         ${misc:Depends}
+Description: Moxa LED control utility 
+ LED control utility for Moxa platform
